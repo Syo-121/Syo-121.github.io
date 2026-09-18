@@ -1,0 +1,9 @@
+# 手元で見るときだけ、下書き置き場（../../_下書き/記事/）を記事として読み込む（D-045）
+# 公開のビルド（hugo の既定＝production）ではこのファイルを読まないので、下書きは公開されない
+[[module.mounts]]
+source = "content"
+target = "content"
+
+[[module.mounts]]
+source = "../../_下書き/記事"
+target = "content/posts"

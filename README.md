@@ -14,13 +14,17 @@ Syo の個人サイトのリポジトリ。[Hugo](https://gohugo.io/) で作り�
 | コマンド | 用途 |
 |---|---|
 | `npm install` | 最初に1回。Hugo と Pagefind を入れる |
-| `npm run dev` | 書きながら確認する（http://localhost:1313/）。保存すると自動で反映。下書きも見るなら `npm run dev -- -D`。**検索は動かない** |
-| `npm run preview` | 公開と同じ手順でビルドし、検索も含めて確認する。表示された URL を開く |
+| `npm run dev` | 書きながら確認する（http://localhost:1313/）。保存すると自動で反映。リポジトリの外の下書き（下記）も出る。**検索は動かない** |
+| `npm run preview` | 公開と同じ手順でビルドし、検索も含めて確認する（下書きも出る）。表示された URL を開く |
 | `npm run build` | 公開用のビルド（`public/` に出る） |
 
 ## 記事の書き方
 
-`content/posts/<スラッグ>/index.md` に書き、画像は同じフォルダに置く。
+公開前の原稿は**リポジトリの外** `../../_下書き/記事/<スラッグ>/index.md` に書き、画像も同じフォルダに置く。
+`npm run dev` と `npm run preview` のときだけ、このフォルダが `content/posts/` に重ねて読み込まれる（`config/development/hugo.toml`・`config/preview/hugo.toml`）。
+公開のビルド（`npm run build`・GitHub Actions）はこの設定を読まないので、下書きは公開されない。
+公開するときに、`index.md` と画像を `content/posts/<スラッグ>/` へ移す。
+同じフォルダの書き散らし用 `メモ.md` は移さない（Hugo は記事の束の中の別の `.md` をページにしないので表示にも出ない。`.gitignore` でも外してある）。
 
 ```yaml
 ---
