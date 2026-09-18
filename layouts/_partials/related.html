@@ -1,0 +1,20 @@
+{{- /* 記事の下に出す他の記事（D-038）。
+     同じタグの多い記事を最大3件。無ければ新しい記事で埋める */}}
+{{- $page := . }}
+{{- $related := first 3 (where (site.RegularPages.Related .) "Section" "posts") }}
+{{- $title := "関連する記事" }}
+{{- if not $related }}
+  {{- $title = "ほかの記事" }}
+  {{- $related = first 3 (where (where site.RegularPages "Section" "posts") "Permalink" "!=" $page.Permalink).ByDate.Reverse }}
+{{- end }}
+{{- with $related }}
+<section class="related" data-pagefind-ignore>
+  <div class="section-head">
+    <h2>{{ $title }}</h2>
+    <a class="section-more" href="{{ relURL "posts/" }}">記事をすべて見る →</a>
+  </div>
+  <div class="post-grid post-grid-sub">
+    {{- range . }}{{ partial "post-item.html" . }}{{ end }}
+  </div>
+</section>
+{{- end }}

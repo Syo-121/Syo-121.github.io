@@ -1,0 +1,12 @@
+{{- /* タグ。種類のタグ（3-C）は色を変えて先に出す */}}
+{{- $types := slice "技術" "参加記" "思想" "その他" }}
+{{- with .GetTerms "tags" }}
+<ul class="tags">
+  {{- range . }}{{ if in $types .LinkTitle }}
+  <li class="tag-type"><a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a></li>
+  {{- end }}{{ end }}
+  {{- range . }}{{ if not (in $types .LinkTitle) }}
+  <li><a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a></li>
+  {{- end }}{{ end }}
+</ul>
+{{- end }}

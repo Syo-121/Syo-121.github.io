@@ -1,0 +1,9 @@
+{{- define "main" }}
+{{- /* タグ一覧（P-04・2-J）: 記事の多い順 */}}
+<h1>{{ .Title }}</h1>
+<ul class="term-list">
+  {{- range .Data.Terms.ByCount }}
+  <li><a href="{{ .Page.RelPermalink }}">#{{ .Page.LinkTitle }} <span class="count">{{ .Count }}</span></a></li>
+  {{- end }}
+</ul>
+{{- end }}

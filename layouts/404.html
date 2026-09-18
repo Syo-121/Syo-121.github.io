@@ -1,0 +1,9 @@
+{{- define "main" }}
+{{- /* 404（2-K） */}}
+<h1>ページが見つかりません</h1>
+<p>URL が間違っているか、ページが移動・削除された可能性があります。</p>
+<ul class="notfound-links">
+  <li><a class="pill" href="{{ site.Home.RelPermalink }}">トップへ</a></li>
+  <li><a class="pill" href="{{ relURL "posts/" }}">記事一覧へ</a></li>
+</ul>
+{{- end }}

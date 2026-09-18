@@ -1,0 +1,7 @@
+{{- /* 公開日と、あれば更新日（S-11） */}}
+<p class="post-meta">
+  <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }} 公開</time>
+  {{- with .Params.updated }}
+  <span aria-hidden="true">・</span><time datetime="{{ time.Format "2006-01-02" . }}">{{ time.Format "2006-01-02" . }} 更新</time>
+  {{- end }}
+</p>

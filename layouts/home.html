@@ -1,0 +1,57 @@
+{{- define "main" }}
+{{- /* トップ（2-A〜2-D・D-039 で「主な実績」を外した）: 自己紹介 → おすすめ記事 → 最近の記事 */}}
+<section class="hero">
+  {{- with resources.Get "images/icon.png" }}
+    {{- $icon := .Resize "208x208 webp q85" }}
+  <img class="hero-icon" src="{{ $icon.RelPermalink }}" alt="" width="104" height="104">
+  {{- end }}
+  <div class="hero-body">
+    <h1 class="hero-name">{{ site.Title }}</h1>
+    <div class="hero-intro">{{ .Content }}</div>
+    <p class="hero-links">
+      <a class="pill pill-accent" href="{{ relURL "about/" }}">自己紹介・活動</a>
+      {{- with site.Params.xUser }}<a class="pill pill-icon" href="https://x.com/{{ . }}">{{ partial "icon.html" "x" }}@{{ . }}</a>{{ end }}
+      {{- with site.Params.githubUser }}<a class="pill pill-icon" href="https://github.com/{{ . }}">{{ partial "icon.html" "github" }}{{ . }}</a>{{ end }}
+    </p>
+  </div>
+  {{- /* 記事の種類への入口（3-C）。広い画面だけ出す（D-037） */}}
+  {{- $types := slice "技術" "参加記" "思想" "その他" }}
+  <div class="hero-side">
+    <p class="hero-side-title">記事の種類</p>
+    <ul class="hero-types">
+      {{- range $types }}
+        {{- with index site.Taxonomies.tags (lower .) }}
+      <li><a href="{{ .Page.RelPermalink }}">#{{ .Page.LinkTitle }}<span class="count">{{ .Count }}</span></a></li>
+        {{- end }}
+      {{- end }}
+      <li><a href="{{ relURL "tags/" }}">タグ一覧 →</a></li>
+    </ul>
+  </div>
+</section>
+
+{{- $posts := (where site.RegularPages "Section" "posts").ByDate.Reverse }}
+{{- with first (int site.Params.featuredOnTop) (where $posts "Params.recommended" true) }}
+<section>
+  <div class="section-head">
+    <h2>おすすめ記事</h2>
+  </div>
+  <div class="post-grid">
+    {{- range . }}{{ partial "post-item.html" . }}{{ end }}
+  </div>
+</section>
+{{- end }}
+
+<section>
+  <div class="section-head">
+    <h2>最近の記事</h2>
+    <a class="section-more" href="{{ relURL "posts/" }}">記事をすべて見る →</a>
+  </div>
+  {{- with first (int site.Params.recentOnTop) $posts }}
+  <div class="post-grid">
+    {{- range . }}{{ partial "post-item.html" . }}{{ end }}
+  </div>
+  {{- else }}
+  <p>まだ記事がありません。</p>
+  {{- end }}
+</section>
+{{- end }}

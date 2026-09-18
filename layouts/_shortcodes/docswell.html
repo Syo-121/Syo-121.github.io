@@ -1,0 +1,10 @@
+{{- /* Docswell のスライドの埋め込み（S-15・4-F）: {{< docswell url="https://www.docswell.com/s/<ユーザー>/<ID>-<名前>" >}} */ -}}
+{{- $url := .Get "url" | default (.Get 0) -}}
+{{- if not $url }}{{ errorf "docswell: url がありません: %s" .Position }}{{ end -}}
+{{- $parts := split (urls.Parse $url).Path "/" -}}
+{{- if lt (len $parts) 4 }}{{ errorf "docswell: URL の形が想定と違います（/s/<ユーザー>/<ID>-<名前>）: %s" .Position }}{{ end -}}
+{{- $id := index (split (index $parts 3) "-") 0 -}}
+<div class="embed embed-docswell">
+  <iframe src="https://www.docswell.com/slide/{{ $id }}/embed" title="Docswell のスライド" loading="lazy" allowfullscreen></iframe>
+  <p class="embed-link"><a href="{{ $url }}">Docswell で見る</a></p>
+</div>

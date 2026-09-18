@@ -1,0 +1,16 @@
+{{- /* 記事ページの横に出す書き手の札（D-037）。画面が狭いときは出さない */}}
+<aside class="profile-card">
+  {{- with resources.Get "images/icon.png" }}
+    {{- $icon := .Resize "112x112 webp q85" }}
+  <img class="profile-icon" src="{{ $icon.RelPermalink }}" alt="" width="56" height="56" loading="lazy">
+  {{- end }}
+  <p class="profile-name">{{ site.Title }}</p>
+  {{- with site.Params.description }}
+  <p class="profile-text">{{ . }}</p>
+  {{- end }}
+  <p class="profile-links">
+    <a class="pill" href="{{ relURL "about/" }}">自己紹介</a>
+    {{- with site.Params.xUser }}<a class="pill pill-icon" href="https://x.com/{{ . }}">{{ partial "icon.html" "x" }}@{{ . }}</a>{{ end }}
+    {{- with site.Params.githubUser }}<a class="pill pill-icon" href="https://github.com/{{ . }}">{{ partial "icon.html" "github" }}{{ . }}</a>{{ end }}
+  </p>
+</aside>

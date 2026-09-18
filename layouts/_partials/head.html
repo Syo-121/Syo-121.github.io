@@ -1,0 +1,55 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- $title := cond .IsHome site.Title (printf "%s | %s" .Title site.Title) }}
+<title>{{ $title }}</title>
+{{- $desc := or .Description site.Params.description }}
+<meta name="description" content="{{ $desc }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<link rel="icon" href="{{ relURL "favicon-32.png" }}" sizes="32x32">
+<link rel="apple-touch-icon" href="{{ relURL "apple-touch-icon.png" }}">
+{{- with site.Home.OutputFormats.Get "rss" }}
+<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ site.Title }}">
+{{- end }}
+
+{{- /* SNS のカード（S-19）。画像は記事ごとの image、なければ assets/images/card.png */}}
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ cond .IsHome site.Title .Title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:type" content="{{ cond (and .IsPage (eq .Section "posts")) "article" "website" }}">
+<meta property="og:locale" content="ja_JP">
+{{- /* 記事の image は SNS のカードの形（1200x630）に切り出して出す。元の写真は重いことがある */}}
+{{- $image := "" }}
+{{- with .Params.image }}
+  {{- with $.Resources.Get (strings.TrimPrefix "./" .) }}
+    {{- if eq .MediaType.SubType "svg" }}
+      {{- $image = .Permalink }}
+    {{- else }}
+      {{- $image = (.Fill "1200x630 jpg q85").Permalink }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- if not $image }}
+  {{- with resources.Get "images/card.png" }}{{ $image = .Permalink }}{{ end }}
+{{- end }}
+{{- with $image }}
+<meta property="og:image" content="{{ . }}">
+<meta name="twitter:card" content="summary_large_image">
+{{- else }}
+<meta name="twitter:card" content="summary">
+{{- end }}
+{{- with site.Params.xUser }}
+<meta name="twitter:site" content="@{{ . }}">
+{{- end }}
+
+{{- $css := resources.Get "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{- with resources.Get "css/chroma-light.css" }}
+  {{- $c := . | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $c.RelPermalink }}" media="(prefers-color-scheme: light)">
+{{- end }}
+{{- with resources.Get "css/chroma-dark.css" }}
+  {{- $c := . | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $c.RelPermalink }}" media="(prefers-color-scheme: dark)">
+{{- end }}
+{{- partial "analytics.html" . }}

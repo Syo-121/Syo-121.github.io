@@ -1,0 +1,14 @@
+# ビルドの出力
+public/
+resources/_gen/
+.hugo_build.lock
+
+# npm
+node_modules/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# 公開したくないもの（D-030: 公開したくないものは .gitignore で外す）
+# ⚠ 一度コミットしたものは、ここに足しても履歴から読める

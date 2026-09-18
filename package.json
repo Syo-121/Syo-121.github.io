@@ -1,0 +1,14 @@
+{
+  "name": "syo-121.github.io",
+  "private": true,
+  "description": "Syo の個人サイト（Hugo + Pagefind）",
+  "scripts": {
+    "dev": "hugo server",
+    "build": "hugo --gc --minify && pagefind --site public",
+    "preview": "hugo --gc --minify --environment preview && pagefind --site public --serve"
+  },
+  "devDependencies": {
+    "hugo-extended": "0.166.0",
+    "pagefind": "1.5.2"
+  }
+}

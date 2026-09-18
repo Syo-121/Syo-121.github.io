@@ -1,0 +1,14 @@
+{{- /* 一覧の1件（2-H・D-037）: サムネイル・タイトル・日付・要約・タグ */}}
+<article class="post-item">
+  <a class="post-thumb" href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
+    {{- partial "post-thumb.html" . }}
+  </a>
+  <div class="post-item-body">
+    <h3 class="post-item-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    {{- partial "post-meta.html" . }}
+    {{- with .Description }}
+    <p class="post-item-summary">{{ . }}</p>
+    {{- end }}
+    {{- partial "tags.html" . }}
+  </div>
+</article>

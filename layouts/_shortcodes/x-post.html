@@ -1,0 +1,11 @@
+{{- /* X の投稿の埋め込み（S-15・4-F）: {{< x-post url="https://x.com/..." >}}
+     ビルド時には X に問い合わせない。表示時に読者のブラウザが X の埋め込み用スクリプトを読む */ -}}
+{{- $url := .Get "url" | default (.Get 0) -}}
+{{- if not $url }}{{ errorf "x-post: url がありません: %s" .Position }}{{ end -}}
+<div class="embed embed-x">
+  <blockquote class="twitter-tweet" data-dnt="true" data-lang="ja"><a href="{{ $url }}">{{ $url }}</a></blockquote>
+</div>
+{{- if not (.Page.Store.Get "hasXEmbed") }}
+  {{- .Page.Store.Set "hasXEmbed" true }}
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+{{- end }}

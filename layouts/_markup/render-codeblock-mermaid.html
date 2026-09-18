@@ -1,0 +1,5 @@
+{{- /* Mermaid の図（移した記事の図を Zenn と同じく図として出す＝S-38）。スクリプトは図のある記事だけ page.html で読む */ -}}
+<pre class="mermaid">
+  {{- .Inner | htmlEscape | safeHTML }}
+</pre>
+{{- .Page.Store.Set "hasMermaid" true }}

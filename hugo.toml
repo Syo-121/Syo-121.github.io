@@ -1,0 +1,75 @@
+baseURL = "https://syo-121.github.io/"
+locale = "ja"
+defaultContentLanguage = "ja"
+# サイト名（D-043 で確定。本人: 「Syoのままでいいです」）
+title = "Syo"
+hasCJKLanguage = true
+timeZone = "Asia/Tokyo"
+enableRobotsTXT = true
+# タグの表記を書いたとおりに出す（esp32 → Esp32 にしない）
+capitalizeListTitles = false
+
+# 先頭情報の published / updated を公開日・更新日として使う（3-A）
+[frontmatter]
+  lastmod = ["updated", ":default"]
+
+# 記事の URL はスラッグで決める（S-32・S-33）
+[permalinks]
+  posts = "/posts/:slug/"
+
+[taxonomies]
+  tag = "tags"
+
+# フィードはトップだけ、/feed.xml に出す（S-20・D-023）
+[outputs]
+  home = ["html", "rss"]
+  section = ["html"]
+  taxonomy = ["html"]
+  term = ["html"]
+
+[outputFormats.rss]
+  baseName = "feed"
+
+[markup.goldmark.extensions.passthrough]
+  # 数式はビルド時に変換する（S-17・4-E）
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    block = [["$$", "$$"]]
+    inline = [["$", "$"]]
+
+[markup.goldmark.renderer]
+  # Zenn と同じく、1行の改行をそのまま改行として表示する（移した記事の見た目を保つ＝S-38）
+  hardWraps = true
+
+[markup.highlight]
+  noClasses = false
+
+# 関連する記事（記事ページの下・D-038）。同じタグの多い記事を近いものとみなす
+[related]
+  includeNewer = true
+  threshold = 60
+  toLower = false
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "date"
+    weight = 10
+
+[markup.tableOfContents]
+  startLevel = 2
+  endLevel = 3
+  ordered = false
+
+[params]
+  description = "Syo の技術記事・参加記・考えたことの記録"
+  author = "Syo"
+  xUser = "_syo_syo_syo_"
+  githubUser = "Syo-121"
+  # Cloudflare Web Analytics のトークン（4-D）。本人が取得したら入れる。空なら解析を読み込まない
+  cloudflareAnalyticsToken = ""
+  # トップの件数（2-B。実績はトップに出さない＝D-039）
+  featuredOnTop = 3
+  recentOnTop = 6
+  # 目次を出す見出しの数（4-D）
+  tocMinHeadings = 3

@@ -1,0 +1,14 @@
+{{- define "main" }}
+{{- /* 記事一覧（S-08・D-023 B）: 新しい順、年ごとに区切る */}}
+<h1>{{ .Title }}</h1>
+{{- range .Pages.GroupByDate "2006" }}
+<section class="year-group">
+  <div class="year-head"><h2>{{ .Key }}</h2></div>
+  <div class="post-grid">
+    {{- range .Pages.ByDate.Reverse }}{{ partial "post-item.html" . }}{{ end }}
+  </div>
+</section>
+{{- else }}
+<p>まだ記事がありません。</p>
+{{- end }}
+{{- end }}

@@ -1,0 +1,12 @@
+{{- /* 注意書き（S-14・6-E）: GitHub 形式の > [!NOTE] などを箱にする */ -}}
+{{- if eq .Type "alert" -}}
+{{- $labels := dict "note" "補足" "tip" "ヒント" "important" "重要" "warning" "警告" "caution" "注意" -}}
+<div class="alert alert-{{ .AlertType }}" role="note">
+  <p class="alert-title">{{ or .AlertTitle (index $labels .AlertType) (title .AlertType) }}</p>
+  {{ .Text }}
+</div>
+{{- else -}}
+<blockquote>
+  {{ .Text }}
+</blockquote>
+{{- end -}}

@@ -1,0 +1,19 @@
+<header class="site-header">
+  <div class="container container-wide header-inner">
+    <a class="site-title" href="{{ site.Home.RelPermalink }}">
+      {{- with resources.Get "images/icon.png" }}
+        {{- $icon := .Resize "60x60 webp q85" }}
+      <img class="site-icon" src="{{ $icon.RelPermalink }}" alt="" width="30" height="30">
+      {{- end }}
+      <span>{{ site.Title }}</span>
+    </a>
+    <nav aria-label="サイト内のページ">
+      <ul class="nav">
+        <li><a href="{{ relURL "posts/" }}">記事</a></li>
+        <li><a href="{{ relURL "tags/" }}">タグ</a></li>
+        <li><a href="{{ relURL "about/" }}">自己紹介</a></li>
+        <li><a href="{{ relURL "search/" }}">検索</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>

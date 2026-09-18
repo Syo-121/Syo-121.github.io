@@ -1,0 +1,22 @@
+{{- /* 活動・実績の年表（2-G・3-G・D-042）。受け取るのは data/works.yaml の項目のリスト（新しい順） */}}
+<ol class="timeline">
+  {{- range . }}
+  <li class="timeline-item">
+    {{- $label := .period }}
+    {{- if not $label }}
+      {{- with .date }}{{ $label = (time.AsTime (printf "%s-01T00:00:00Z" .)).Format "2006年1月" }}{{ end }}
+    {{- end }}
+    <span class="timeline-date">{{ $label }}</span>
+    <div class="timeline-body">
+      <p class="timeline-text">{{ .text }}</p>
+      {{- with .links }}
+      <ul class="timeline-links">
+        {{- range . }}
+        <li>{{ partial "work-link.html" . }}</li>
+        {{- end }}
+      </ul>
+      {{- end }}
+    </div>
+  </li>
+  {{- end }}
+</ol>

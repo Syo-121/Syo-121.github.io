@@ -1,0 +1,10 @@
+{{- /* 感想の経路（S-22・5-C）。文言は仮 */}}
+<aside class="feedback" data-pagefind-ignore>
+  <p>感想や質問は X で送ってもらえるとうれしいです。</p>
+  <p class="feedback-links">
+    <a class="pill pill-accent pill-icon" href="https://x.com/intent/post?text={{ .Title | urlquery }}&url={{ .Permalink | urlquery }}" target="_blank" rel="noopener">{{ partial "icon.html" "x" }}X で感想を送る</a>
+    {{- with site.Params.xUser }}
+    <a class="pill pill-icon" href="https://x.com/{{ . }}">{{ partial "icon.html" "x" }}DM で送る（@{{ . }}）</a>
+    {{- end }}
+  </p>
+</aside>

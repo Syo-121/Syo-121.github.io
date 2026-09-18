@@ -1,0 +1,52 @@
+{{- define "main" }}
+{{- /* 自己紹介（P-06・2-E・3-H）: 本文は content/about.md、実績は data/works.yaml、連絡先は hugo.toml から出す。
+     広い画面では記事ページと同じ二段組み（D-037） */}}
+<div class="post-layout post-layout-about">
+  <div class="post-aside" data-pagefind-ignore>
+    <nav class="toc" aria-label="このページの中身">
+      <p class="toc-title">このページの中身</p>
+      {{ .TableOfContents }}
+      <ul class="toc-extra">
+        <li><a href="#works">活動・実績</a></li>
+        <li><a href="#contact">連絡先</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="post-main">
+<article class="about">
+  <div class="about-header">
+    {{- with resources.Get "images/icon.png" }}
+      {{- $icon := .Resize "144x144 webp q85" }}
+    <img class="about-icon" src="{{ $icon.RelPermalink }}" alt="" width="72" height="72">
+    {{- end }}
+    <h1>{{ .Title }}</h1>
+  </div>
+  {{ .Content }}
+
+  <section id="works">
+    <h2>活動・実績</h2>
+    {{- with hugo.Data.works }}
+      {{- partial "works.html" (sort . "date" "desc") }}
+    {{- else }}
+    <p>準備中です。</p>
+    {{- end }}
+  </section>
+
+  <section id="contact">
+    <h2>連絡先</h2>
+    <ul class="contact-list">
+      {{- with site.Params.xUser }}
+      <li><a class="contact-link" href="https://x.com/{{ . }}">{{ partial "icon.html" "x" }}<span class="contact-name">@{{ . }}</span></a><span class="contact-note">DM で受け付けています</span></li>
+      {{- end }}
+      {{- with site.Params.githubUser }}
+      <li><a class="contact-link" href="https://github.com/{{ . }}">{{ partial "icon.html" "github" }}<span class="contact-name">{{ . }}</span></a></li>
+      {{- end }}
+      {{- with site.Home.OutputFormats.Get "rss" }}
+      <li><a class="contact-link" href="{{ .RelPermalink }}">{{ partial "icon.html" "rss" }}<span class="contact-name">フィード（RSS）</span></a></li>
+      {{- end }}
+    </ul>
+  </section>
+</article>
+  </div>
+</div>
+{{- end }}

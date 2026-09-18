@@ -1,0 +1,19 @@
+{{- define "main" }}
+{{- /* 検索（S-10・5-A・5-B）: Pagefind。索引は npm run build / preview で作られる */}}
+<h1>{{ .Title }}</h1>
+<p class="search-hint">記事のタイトルと本文から探せます。</p>
+<link rel="stylesheet" href="{{ relURL "pagefind/pagefind-ui.css" }}">
+<div id="search"></div>
+<noscript><p>検索には JavaScript が必要です。</p></noscript>
+<script src="{{ relURL "pagefind/pagefind-ui.js" }}"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const target = document.getElementById("search");
+    if (typeof PagefindUI === "undefined") {
+      target.textContent = "検索の索引が見つかりません。手元では npm run preview で確認してください（npm run dev では索引が作られません）。";
+      return;
+    }
+    new PagefindUI({ element: "#search", showSubResults: true, showImages: false });
+  });
+</script>
+{{- end }}

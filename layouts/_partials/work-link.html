@@ -1,0 +1,11 @@
+{{- /* 実績のリンク。記事はスラッグで指す（3-G） */}}
+{{- if .post }}
+  {{- $found := where site.RegularPages "Params.slug" .post }}
+  {{- with $found }}
+    {{- with index . 0 }}<a href="{{ .RelPermalink }}">記事: {{ .LinkTitle }}</a>{{ end }}
+  {{- else }}
+    {{- warnf "data/works.yaml: スラッグ %q の記事が見つかりません" $.post }}
+  {{- end }}
+{{- else if .url }}
+  <a href="{{ .url }}">{{ or .label .url }}</a>
+{{- end }}

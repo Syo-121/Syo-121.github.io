@@ -1,0 +1,14 @@
+{{- /* 画像（S-13・6-F）: 記事と同じフォルダの画像を探し、?width=400 でサイズを指定できる */ -}}
+{{- $u := urls.Parse .Destination -}}
+{{- $src := .Destination -}}
+{{- $width := "" -}}
+{{- if not $u.IsAbs -}}
+  {{- with $u.Query.Get "width" }}{{ $width = . }}{{ end -}}
+  {{- with .PageInner.Resources.Get $u.Path -}}
+    {{- $src = .RelPermalink -}}
+  {{- else -}}
+    {{- if not (strings.HasPrefix $u.Path "/") }}{{ warnf "画像が見つかりません: %s（%s）" .Destination .Page.Path }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+<img src="{{ $src }}" alt="{{ .PlainText }}"{{ with $width }} width="{{ . }}"{{ end }}{{ with .Title }} title="{{ . }}"{{ end }} loading="lazy" decoding="async">
+{{- /**/ -}}

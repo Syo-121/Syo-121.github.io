@@ -1,0 +1,10 @@
+{{- /* 数式（S-17・4-E）: $...$ と $$...$$ をビルド時に KaTeX で変換する */ -}}
+{{- $opts := dict "output" "htmlAndMathml" "displayMode" (eq .Type "block") -}}
+{{- with try (transform.ToMath .Inner $opts) -}}
+  {{- with .Err -}}
+    {{- errorf "数式を変換できませんでした（KaTeX のエラー: %s）: %s" . $.Position -}}
+  {{- else -}}
+    {{- .Value -}}
+    {{- $.Page.Store.Set "hasMath" true -}}
+  {{- end -}}
+{{- end -}}

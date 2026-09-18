@@ -1,0 +1,26 @@
+<footer class="site-footer">
+  <div class="container container-wide">
+    <div class="footer-top">
+      {{- with resources.Get "images/icon.png" }}
+        {{- $icon := .Resize "52x52 webp q85" }}
+      <img class="footer-icon" src="{{ $icon.RelPermalink }}" alt="" width="26" height="26">
+      {{- end }}
+      <span class="footer-name">{{ site.Title }}</span>
+    </div>
+    <ul class="footer-links">
+      {{- with site.Params.xUser }}
+      <li><a href="https://x.com/{{ . }}">{{ partial "icon.html" "x" }}@{{ . }}</a></li>
+      {{- end }}
+      {{- with site.Params.githubUser }}
+      <li><a href="https://github.com/{{ . }}">{{ partial "icon.html" "github" }}{{ . }}</a></li>
+      {{- end }}
+      {{- with site.Home.OutputFormats.Get "rss" }}
+      <li><a href="{{ .RelPermalink }}">{{ partial "icon.html" "rss" }}フィード</a></li>
+      {{- end }}
+    </ul>
+    {{- /* 解析の告知（S-21）。解析を読み込むときだけ出す */}}
+    {{- if site.Params.cloudflareAnalyticsToken }}
+    <p class="analytics-note">ページごとの閲覧数を知るために Cloudflare Web Analytics を使っています。Cookie を使わず、閲覧した人を個人として識別しません。</p>
+    {{- end }}
+  </div>
+</footer>

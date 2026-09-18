@@ -1,0 +1,9 @@
+{{- define "main" }}
+{{- /* タグ別一覧（P-05・S-09） */}}
+<h1>#{{ .Title }}</h1>
+<p class="count-note">{{ len .Pages }} 件</p>
+<div class="post-grid">
+  {{- range .Pages.ByDate.Reverse }}{{ partial "post-item.html" . }}{{ end }}
+</div>
+<p class="more"><a href="{{ relURL "tags/" }}">タグ一覧へ →</a></p>
+{{- end }}

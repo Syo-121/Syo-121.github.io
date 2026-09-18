@@ -1,0 +1,56 @@
+{{- define "main" }}
+{{- /* 記事ページ（P-03・2-I）。広い画面では横に目次と書き手の札を出す（D-037） */}}
+{{- $isPost := eq .Section "posts" }}
+{{- $hasToc := and $isPost (ge (len .Fragments.HeadingsMap) (int site.Params.tocMinHeadings)) }}
+<div class="post-layout">
+  {{- if $isPost }}
+  <div class="post-aside" data-pagefind-ignore>
+    {{- if $hasToc }}
+    {{- /* 目次は広い画面ではここ（横に貼り付く）、狭い画面では本文の前に出す（D-037） */}}
+    <nav class="toc toc-side" aria-label="目次">
+      <p class="toc-title">目次</p>
+      {{ .TableOfContents }}
+    </nav>
+    {{- end }}
+    {{- partial "profile-card.html" . }}
+  </div>
+  {{- end }}
+  <div class="post-main">
+    <article class="post"{{ if $isPost }} data-pagefind-body{{ end }}>
+      <header class="post-header">
+        <h1>{{ .Title }}</h1>
+        {{- if $isPost }}
+        {{- partial "post-meta.html" . }}
+        {{- partial "tags.html" . }}
+        {{- end }}
+      </header>
+      {{- if $hasToc }}
+      <nav class="toc toc-inline" aria-label="目次" data-pagefind-ignore>
+        <p class="toc-title">目次</p>
+        {{ .TableOfContents }}
+      </nav>
+      {{- end }}
+      <div class="post-content">
+        {{ .Content }}
+      </div>
+    </article>
+    {{- if $isPost }}
+    {{- partial "feedback.html" . }}
+    {{- partial "related.html" . }}
+    {{- end }}
+  </div>
+</div>
+{{- /* 数式のある記事だけ KaTeX の CSS を読む（4-E）。版は Hugo 0.166 の KaTeX に合わせる */}}
+{{- if .Store.Get "hasMath" }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.4/dist/katex.min.css" crossorigin="anonymous">
+{{- end }}
+{{- /* Mermaid の図のある記事だけ、図を描くスクリプトを読む（版は固定） */}}
+{{- if .Store.Get "hasMermaid" }}
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@12.0.0/dist/mermaid.esm.min.mjs";
+  const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  mermaid.initialize({ startOnLoad: false, theme: dark ? "dark" : "default" });
+  await mermaid.run();
+</script>
+{{- end }}
+{{- end }}
