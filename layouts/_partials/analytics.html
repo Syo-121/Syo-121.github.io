@@ -1,5 +1,5 @@
 {{- /* 公開用のビルド（production）で、トークンがあるときだけ読み込む（4-D）。npm run dev / preview では読み込まない */}}
 {{- if and hugo.IsProduction site.Params.cloudflareAnalyticsToken }}
   {{- $beacon := dict "token" site.Params.cloudflareAnalyticsToken | jsonify }}
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{{ $beacon }}"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon="{{ $beacon }}"></script>
 {{- end }}

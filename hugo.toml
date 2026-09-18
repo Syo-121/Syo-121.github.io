@@ -67,7 +67,7 @@ capitalizeListTitles = false
   xUser = "_syo_syo_syo_"
   githubUser = "Syo-121"
   # Cloudflare Web Analytics のトークン（4-D）。本人が取得したら入れる。空なら解析を読み込まない
-  cloudflareAnalyticsToken = ""
+  cloudflareAnalyticsToken = "1794891fdc1d4b9a9ca3cb298cb808f1"
   # トップの件数（2-B。実績はトップに出さない＝D-039）
   featuredOnTop = 3
   recentOnTop = 6
