@@ -1,0 +1,72 @@
+{{- /* タイトルを行に分けて返す（title-card.html・title-thumb.html で共通。D-049）。
+       引数: dict "page" 記事 "width" 1行に入る幅（全角1字＝1、半角＝0.6） "lines" 最大の行数
+       Hugo の文字入れは空白でしか折り返さないので、ここで幅を数えて折り返す。
+       英数字の並びは切らない。行頭に来てはいけない字（、。」など）は前の行に付ける。はみ出た分は「…」で切る。
+       うまく切れないときは、先頭情報の cardTitle に「|」区切りで改行位置を書く（例: cardTitle: "自分のために|ブログを書く"） */ -}}
+{{- $p := .page -}}
+{{- $maxWidth := .width -}}
+{{- $maxLines := .lines -}}
+{{- $noStart := "、。，．」』）)］]！？!?ー…・：；ぁぃぅぇぉっゃゅょァィゥェォッャュョ" -}}
+{{- $lines := slice -}}
+{{- with $p.Params.cardTitle -}}
+  {{- range split . "|" }}{{ $lines = $lines | append (trim . " ") }}{{ end -}}
+{{- else -}}
+  {{- $tokens := slice -}}
+  {{- $word := "" -}}
+  {{- range split $p.Title "" -}}
+    {{- if findRE `^[A-Za-z0-9._#+'\-]$` . -}}
+      {{- $word = print $word . -}}
+    {{- else -}}
+      {{- with $word }}{{ $tokens = $tokens | append . }}{{ end -}}
+      {{- $word = "" -}}
+      {{- $tokens = $tokens | append . -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $word }}{{ $tokens = $tokens | append . }}{{ end -}}
+  {{- $cur := "" -}}
+  {{- $w := 0.0 -}}
+  {{- range $tokens -}}
+    {{- $tw := 0.0 -}}
+    {{- range split . "" -}}
+      {{- if findRE `^[\x20-\x7e]$` . }}{{ $tw = add $tw 0.6 }}{{ else }}{{ $tw = add $tw 1.0 }}{{ end -}}
+    {{- end -}}
+    {{- if and $cur (gt (add $w $tw) $maxWidth) (not (strings.Contains $noStart .)) -}}
+      {{- $lines = $lines | append (trim $cur " ") -}}
+      {{- $cur = . -}}
+      {{- $w = $tw -}}
+    {{- else -}}
+      {{- $cur = print $cur . -}}
+      {{- $w = add $w $tw -}}
+    {{- end -}}
+  {{- end -}}
+  {{- with $cur }}{{ $lines = $lines | append (trim . " ") }}{{ end -}}
+  {{- /* 最後の行が1〜2字だけになったら、前の行の最後の2字を回す（英数字は切らない） */ -}}
+  {{- $n := len $lines -}}
+  {{- if ge $n 2 -}}
+    {{- $last := index $lines (sub $n 1) -}}
+    {{- $prev := index $lines (sub $n 2) -}}
+    {{- $pr := len (split $prev "") -}}
+    {{- $mv := substr $prev -2 -}}
+    {{- if and (le (len (split $last "")) 2) (ge $pr 6) (not (findRE `[\x20-\x7e]` $mv)) -}}
+      {{- $lines = first (sub $n 2) $lines | append (substr $prev 0 (sub $pr 2)) (print $mv $last) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- /* 長すぎる行・行の多すぎは、ビルドのときに警告を出す（右端で切れたり「…」で切られたりしたまま公開しないように） */ -}}
+{{- range $lines -}}
+  {{- $lw := 0.0 -}}
+  {{- range split . "" -}}
+    {{- if findRE `^[\x20-\x7e]$` . }}{{ $lw = add $lw 0.6 }}{{ else }}{{ $lw = add $lw 1.0 }}{{ end -}}
+  {{- end -}}
+  {{- if gt $lw (add $maxWidth 1.0) -}}
+    {{- warnf "タイトル入りのカードの1行が長すぎて、右端が切れるおそれがあります（%s）: 「%s」。先頭情報の cardTitle で「|」の位置を変えてください（1行は全角15字まで）" $p.File.Path . -}}
+  {{- end -}}
+{{- end -}}
+{{- if and $p.Params.cardTitle (gt (len $lines) $maxLines) -}}
+  {{- warnf "cardTitle の行が多すぎます（%s）: %d 行。%d 行目までしか出ず、最後は「…」で切られます" $p.File.Path (len $lines) $maxLines -}}
+{{- end -}}
+{{- if gt (len $lines) $maxLines -}}
+  {{- $last := index $lines (sub $maxLines 1) -}}
+  {{- $lines = first (sub $maxLines 1) $lines | append (print (substr $last 0 -1) "…") -}}
+{{- end -}}
+{{- return $lines -}}

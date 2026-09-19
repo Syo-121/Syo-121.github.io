@@ -1,30 +1,10 @@
-{{- /* 一覧に出すサムネイル（D-037）。
-     順に探す: 先頭情報の image → 本文の最初の画像 → なければアイコンの代替 */}}
-{{- $img := "" }}
-{{- with .Params.image }}
-  {{- with $.Resources.GetMatch (strings.TrimPrefix "./" .) }}{{ $img = . }}{{ end }}
-{{- end }}
-{{- if not $img }}
-  {{- with first 1 (findRESubmatch `!\[[^\]]*\]\(([^)?\s]+)` .RawContent 1) }}
-    {{- $name := index (index . 0) 1 }}
-    {{- if not (or (hasPrefix $name "http") (hasPrefix $name "/")) }}
-      {{- with $.Resources.GetMatch $name }}{{ $img = . }}{{ end }}
-    {{- end }}
-  {{- end }}
-{{- end }}
+{{- /* 一覧に出すサムネイル（D-037・D-049）。X などのカードと同じ画像を 16:9 に切り出す。
+       写真の選び方は post-image.html。写真の無い記事はタイトル入りのカード（title-card.html）。
+       カードは文字をにじませないように、写真より大きめ（800px 幅）に縮める */}}
 {{- $thumb := "" }}
-{{- with $img }}
-  {{- if ne .MediaType.SubType "svg" }}
-    {{- $thumb = .Fill "560x315 webp q80" }}
-  {{- end }}
-{{- end }}
-{{- with $thumb }}
-<img src="{{ .RelPermalink }}" alt="" width="{{ .Width }}" height="{{ .Height }}" loading="lazy" decoding="async">
+{{- with partial "post-image.html" . }}
+  {{- $thumb = .Fill "560x315 webp q80" }}
 {{- else }}
-<span class="thumb-fallback">
-  {{- with resources.Get "images/icon.png" }}
-    {{- $icon := .Resize "96x96 webp q85" }}
-  <img src="{{ $icon.RelPermalink }}" alt="" width="48" height="48" loading="lazy" decoding="async">
-  {{- end }}
-</span>
+  {{- $thumb = (partialCached "title-card.html" . .RelPermalink).Fill "800x450 webp q85 Center" }}
 {{- end }}
+<img src="{{ $thumb.RelPermalink }}" alt="" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" loading="lazy" decoding="async">

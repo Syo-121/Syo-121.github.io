@@ -1,0 +1,20 @@
+{{- /* 記事の写真を1つ選んで返す。一覧のサムネイルと X などのカードで同じものを使う（D-037・D-049）。
+       順に探す: 先頭情報の image → 本文の最初の画像。SVG はサムネイルにも X のカードにも使えないので飛ばす。
+       無ければ空を返す（呼ぶ側でタイトル入りの画像を作る: 一覧は title-thumb.html、X などは title-card.html） */ -}}
+{{- $img := "" -}}
+{{- with .Params.image -}}
+  {{- with $.Resources.GetMatch (strings.TrimPrefix "./" .) -}}
+    {{- if ne .MediaType.SubType "svg" }}{{ $img = . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $img -}}
+  {{- range findRESubmatch `!\[[^\]]*\]\(([^)?\s]+)` .RawContent -1 -}}
+    {{- $name := index . 1 -}}
+    {{- if and (not $img) (not (or (hasPrefix $name "http") (hasPrefix $name "/"))) -}}
+      {{- with $.Resources.GetMatch $name -}}
+        {{- if ne .MediaType.SubType "svg" }}{{ $img = . }}{{ end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $img -}}

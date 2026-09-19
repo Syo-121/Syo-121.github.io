@@ -5,6 +5,7 @@ published: 2025-12-17
 tags: ["技術", "ESP32", "HomeKit", "Arduino", "電子工作", "IoT"]
 image: "main.jpg"
 description: "友人の誕生日にiPhoneのアプリから操作できるスマートリモコンの自作ハードウェアをプレゼントした話です"
+aiFigures: true
 ---
 ## はじめに
 今回はESP32S3を使って，iOSの純正「ホーム」アプリから，エアコンやテレビなどの赤外線家電を操作できるスマートリモコンを自作しました．

@@ -33,6 +33,9 @@
       <div class="post-content">
         {{ .Content }}
       </div>
+      {{- if $isPost }}
+      {{- partial "ai-note.html" . }}
+      {{- end }}
     </article>
     {{- if $isPost }}
     {{- partial "feedback.html" . }}
@@ -45,11 +48,35 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.18.4/dist/katex.min.css" crossorigin="anonymous">
 {{- end }}
 {{- /* Mermaid の図のある記事だけ、図を描くスクリプトを読む（版は固定） */}}
+{{- /* 図の見た目はサイトに合わせる: 影・グラデーションの付く既定の見た目（neo）をやめ、色は main.css の変数をそのまま使う。
+       変数は端末のダーク/ライトで切り替わるので、図も描き直さずに付いてくる。
+       記事側で使える印: `class ノード名 accent`（強調＝アクセント色）/ `class ノード名 muted`（まだ無いもの＝点線・薄い字） */}}
 {{- if .Store.Get "hasMermaid" }}
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@12.0.0/dist/mermaid.esm.min.mjs";
-  const dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  mermaid.initialize({ startOnLoad: false, theme: dark ? "dark" : "default" });
+  const themeCSS = `
+    .node rect, .node circle, .node ellipse, .node polygon, .node path { fill: var(--surface); stroke: var(--border-strong); stroke-width: 1px; filter: none; }
+    .node rect.label-container:not([rx]) { rx: 8px; ry: 8px; }
+    .label text, span { fill: var(--fg); color: var(--fg); }
+    .cluster rect { fill: var(--bg-subtle); stroke: var(--border); stroke-width: 1px; rx: 12px; ry: 12px; filter: none; }
+    .cluster-label text { fill: var(--muted); }
+    .cluster-label span { color: var(--muted); }
+    .flowchart-link { stroke: var(--muted); }
+    .marker, .marker path, .arrowMarkerPath, .arrowheadPath { fill: var(--muted); stroke: var(--muted); }
+    .edgeLabel, .edgeLabel p, .edgeLabel span, .labelBkg { background-color: var(--surface); color: var(--muted); }
+    .edgeLabel rect { fill: var(--surface); opacity: 1; }
+    .node.accent rect, .node.accent circle, .node.accent polygon, .node.accent path { fill: var(--accent-weak); stroke: var(--accent); }
+    .node.accent span { color: var(--accent); }
+    .node.muted rect, .node.muted circle, .node.muted polygon, .node.muted path { fill: transparent; stroke-dasharray: 4 3; }
+    .node.muted span { color: var(--muted); }
+  `;
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: "base",
+    look: "classic",
+    themeVariables: { fontFamily: getComputedStyle(document.body).fontFamily, fontSize: "15px" },
+    themeCSS,
+  });
   await mermaid.run();
 </script>
 {{- end }}

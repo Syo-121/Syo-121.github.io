@@ -254,7 +254,7 @@ h4 { font-size: 1rem; margin: 2rem 0 0.5rem; }
   box-shadow: var(--shadow-hover);
   transform: translateY(-1px);
 }
-/* サムネイル（先頭情報の image → 本文の最初の画像 → アイコン） */
+/* サムネイル（先頭情報の image → 本文の最初の画像 → タイトル入りの画像＝D-049） */
 .post-thumb {
   display: block;
   min-width: 0;
@@ -271,15 +271,6 @@ h4 { font-size: 1rem; margin: 2rem 0 0.5rem; }
   transition: transform 0.25s ease;
 }
 .post-item:hover .post-thumb > img { transform: scale(1.03); }
-.thumb-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background: var(--accent-weak);
-}
-.thumb-fallback img { width: 48px; height: 48px; border-radius: 50%; opacity: 0.85; }
 .post-item-body { display: flex; flex-direction: column; flex: 1; min-width: 0; padding: 0.95rem 1.1rem 1.05rem; }
 .post-item-title { margin: 0; font-size: 1.02rem; }
 .post-item-title a { color: var(--fg); text-decoration: none; }
@@ -496,6 +487,22 @@ blockquote::before {
 /* Mermaid の図 */
 pre.mermaid { background: transparent; text-align: center; padding: 0; overflow-x: auto; }
 pre.mermaid svg { max-width: 100%; height: auto; }
+
+/* SVG の図（写真と違って枠・影を付けず、Mermaid の図と同じく中央に置く） */
+.post-content img[src$=".svg"] { display: block; margin: 0 auto; border: none; border-radius: 0; box-shadow: none; }
+
+/* 生成AIの使い方の注意書き（D-048） */
+.ai-note {
+  margin-top: 2.5rem;
+  padding: 0.8rem 1.1rem;
+  background: var(--bg-subtle);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+.ai-note ul { margin: 0; padding-left: 1.2rem; }
+.ai-note li { margin: 0.15rem 0; }
 
 /* 数式 */
 .katex-display { overflow-x: auto; overflow-y: hidden; }

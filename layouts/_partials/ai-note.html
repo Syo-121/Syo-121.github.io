@@ -1,0 +1,10 @@
+{{- /* 生成AIの使い方の注意書き（D-048）。すべての記事の本文の後に出す。
+       図の行は、先頭情報に aiFigures: true と書いた記事だけに出す（図に AI を使っていない記事で事実と違わないように） */}}
+<aside class="ai-note" data-pagefind-ignore>
+  <ul>
+    <li>文章の執筆には生成AIを使っていません</li>
+    {{- if .Params.aiFigures }}
+    <li>図は下書きを作成したうえで，生成AIを用いてサイトのデザインに合うように図を作成しています</li>
+    {{- end }}
+  </ul>
+</aside>

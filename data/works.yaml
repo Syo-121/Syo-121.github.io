@@ -21,10 +21,10 @@
   text: "ヨットで使うGPSロガー（Sevion）を開発，2025年12月に千葉大学医学部ヨット部へ3台納品，2026年1月に公開"
   links:
     - label: "Sevion"
-      url: "https://sevion.pages.dev"
+      url: "https://sevion.pages.dev/info/intro"
 
 - date: "2025-09"
-  text: "AstroCamp2025 衛星開発ゼミにチューターとして参加（2025年2月の立ち上げ期から関与）"
+  text: "AstroCamp2025 衛星開発ゼミにチューターとして参加"
 
 - date: "2025-08"
   text: "セキュリティ・キャンプ2025 X4（無線通信ハッキングゼミ）を修了，Xトラック代表として全体成果発表"

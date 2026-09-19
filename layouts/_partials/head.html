@@ -18,15 +18,18 @@
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:type" content="{{ cond (and .IsPage (eq .Section "posts")) "article" "website" }}">
 <meta property="og:locale" content="ja_JP">
-{{- /* 記事の image は SNS のカードの形（1200x630）に切り出して出す。元の写真は重いことがある */}}
+{{- /* 記事の画像は一覧のサムネイルと同じ写真（post-image.html）。写真の無い記事はタイトル入りのカード（title-card.html＝D-049）。
+       SNS のカードの形（1200x630）に切り出して出す。元の写真は重いことがある。PNG は PNG のまま（文字がにじまないように） */}}
 {{- $image := "" }}
-{{- with .Params.image }}
-  {{- with $.Resources.Get (strings.TrimPrefix "./" .) }}
-    {{- if eq .MediaType.SubType "svg" }}
-      {{- $image = .Permalink }}
+{{- if and .IsPage (eq .Section "posts") }}
+  {{- with partial "post-image.html" . }}
+    {{- if eq .MediaType.SubType "png" }}
+      {{- $image = (.Fill "1200x630").Permalink }}
     {{- else }}
       {{- $image = (.Fill "1200x630 jpg q85").Permalink }}
     {{- end }}
+  {{- else }}
+    {{- $image = (partialCached "title-card.html" . .RelPermalink).Permalink }}
   {{- end }}
 {{- end }}
 {{- if not $image }}

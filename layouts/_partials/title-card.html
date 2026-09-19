@@ -1,0 +1,29 @@
+{{- /* タイトル入りのカード画像（S-43・S-44・D-049）。画像の無い記事の、一覧のサムネイルと X などのカードに使う（同じ1枚）。
+       1200x630 の PNG を返す。白地・下に青い帯（card.png と同じ）、左上に種類のタグ、中央にタイトル、左下にアイコン・Syo・URL。
+       一覧では 16:9 に切られて（左右 40px ずつ）角も丸くなるので、中身は左右 120px・上 80px ほど内側に置く。
+       書体は assets/fonts の Noto Sans JP Bold（SIL OFL 1.1・太字に固定したもの）。行の分け方は title-lines.html */ -}}
+{{- $font := resources.Get "fonts/NotoSansJP-Bold.ttf" -}}
+{{- $base := resources.Get "images/card-base.png" -}}
+{{- $icon := (resources.Get "images/icon.png").Resize "88x88 png" -}}
+{{- $left := 120 -}}
+{{- $size := 64 -}}
+{{- $gap := 10 -}}
+{{- $lines := partial "title-lines.html" (dict "page" . "width" 15.0 "lines" 3) -}}
+
+{{- /* タイトルの塊を、タグとアイコンの間の上下の中央（y=282）に。y は字の上端より少し上（行の高さ＝字の大きさ×1.16） */ -}}
+{{- $n := len $lines -}}
+{{- $pitch := add (math.Round (mul $size 1.16)) $gap -}}
+{{- $y := int (sub 282 (div (add (mul (sub $n 1) $pitch) (mul $size 1.56)) 2)) -}}
+{{- $filters := slice
+  (images.Text (delimit $lines "\n") (dict "font" $font "size" $size "color" "#14181f" "x" $left "y" $y "linespacing" $gap))
+  (images.Overlay $icon $left 450)
+  (images.Text "Syo" (dict "font" $font "size" 36 "color" "#14181f" "x" (add $left 108) "y" 448))
+  (images.Text "syo-121.github.io" (dict "font" $font "size" 24 "color" "#59636e" "x" (add $left 108) "y" 497))
+-}}
+{{- with index .Params.tags 0 -}}
+  {{- if in (slice "技術" "参加記" "思想" "その他") . -}}
+    {{- $filters = $filters | append (images.Text (print "#" .) (dict "font" $font "size" 32 "color" "#2f5bd7" "x" $left "y" 72)) -}}
+  {{- end -}}
+{{- end -}}
+{{- $card := $base | images.Filter $filters -}}
+{{- return $card -}}
