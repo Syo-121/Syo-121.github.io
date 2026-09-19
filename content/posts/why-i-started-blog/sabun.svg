@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 540" width="560" height="540" role="img" aria-labelledby="t">
+  <title id="t">相手の思想と自分の思想の差分と、その扱い方（今まで／気づき）</title>
+  <style>
+    svg { --fg:#14181f; --muted:#59636e; --surface:#ffffff; --subtle:#eef1f5; --strong:#c9d1da; --accent:#2f5bd7; --accent-weak:#eaf0ff; }
+    @media (prefers-color-scheme: dark) {
+      svg { --fg:#e6edf3; --muted:#93a0ad; --surface:#121821; --subtle:#172029; --strong:#33404e; --accent:#7aa9ff; --accent-weak:#1f2d45; }
+    }
+    text { font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif; fill: var(--fg); text-anchor: middle; dominant-baseline: central; }
+    .h { font-size: 20px; font-weight: 700; }
+    .ph { font-size: 18px; font-weight: 700; }
+    .sub, .cap { font-size: 14px; fill: var(--muted); }
+    .k { font-size: 20px; font-weight: 700; }
+    .k.acc, .lbl { fill: var(--accent); }
+    .lbl { font-size: 18px; font-weight: 700; }
+    .pr { text-anchor: start; font-family: "Segoe UI", Arial, Helvetica, sans-serif; }
+    .cell { fill: var(--subtle); stroke: var(--strong); stroke-width: 1.5; }
+    .panel .cell { fill: var(--surface); }
+    .cell.diff { fill: var(--accent-weak); stroke: var(--accent); }
+    .old { fill: var(--subtle); stroke: var(--strong); stroke-width: 1.5; stroke-dasharray: 6 5; }
+    .new { fill: var(--subtle); stroke: var(--accent); stroke-width: 1.5; }
+    .line { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+    .aline { fill: none; stroke: var(--accent); stroke-width: 2; }
+    .head { fill: var(--muted); }
+    .ahead { fill: var(--accent); }
+  </style>
+  <defs>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+    <marker id="ma" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path class="ahead" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+
+  <!-- 上: 相手の思想 と 自分の思想。違う行（C と D）が差分 -->
+  <text class="h" x="130" y="22">相手の思想</text>
+  <text class="h" x="430" y="22">自分の思想</text>
+  <rect class="cell" x="70" y="44" width="120" height="44"/><text class="k" x="130" y="66">A</text>
+  <rect class="cell" x="70" y="88" width="120" height="44"/><text class="k" x="130" y="110">B</text>
+  <rect class="cell diff" x="70" y="132" width="120" height="44"/><text class="k acc" x="130" y="154">C</text>
+  <rect class="cell" x="370" y="44" width="120" height="44"/><text class="k" x="430" y="66">A</text>
+  <rect class="cell" x="370" y="88" width="120" height="44"/><text class="k" x="430" y="110">B</text>
+  <rect class="cell diff" x="370" y="132" width="120" height="44"/><text class="k acc" x="430" y="154">D</text>
+  <line class="aline" x1="198" y1="154" x2="362" y2="154" marker-start="url(#ma)" marker-end="url(#ma)"/>
+  <text class="lbl" x="280" y="136">差分</text>
+
+  <!-- 分かれ道 -->
+  <path class="line" d="M280,164 V206 M142,206 H418"/>
+  <path class="line" d="M142,206 V236" marker-end="url(#m)"/>
+  <path class="line" d="M418,206 V236" marker-end="url(#m)"/>
+
+  <!-- 左: 今まで -->
+  <g class="panel">
+    <rect class="old" x="8" y="242" width="268" height="290" rx="12"/>
+    <text class="ph" x="142" y="268">今まで</text>
+    <text class="sub" x="142" y="290">これをするべきだと思っていた</text>
+    <rect class="cell" x="34" y="312" width="90" height="40"/><text class="k" x="79" y="332">A</text>
+    <rect class="cell" x="34" y="352" width="90" height="40"/><text class="k" x="79" y="372">B</text>
+    <rect class="cell" x="34" y="432" width="90" height="40"/><text class="k" x="79" y="452">D</text>
+    <!-- 差分の行は後から描く（下の D の枠線に青い線が上書きされないように） -->
+    <rect class="cell diff" x="34" y="392" width="90" height="40"/><text class="k acc" x="79" y="412">C</text>
+    <text class="cap" x="79" y="500">C を足す</text>
+    <rect class="cell" x="160" y="312" width="90" height="40"/><text class="k" x="205" y="332">A</text>
+    <rect class="cell" x="160" y="352" width="90" height="40"/><text class="k" x="205" y="372">B</text>
+    <rect class="cell diff" x="160" y="392" width="90" height="40"/><text class="k acc" x="205" y="412">C</text>
+    <text class="cap" x="205" y="500">D を C に置き換える</text>
+  </g>
+
+  <!-- 右: 気づき -->
+  <g class="panel">
+    <rect class="new" x="284" y="242" width="268" height="290" rx="12"/>
+    <text class="ph" x="418" y="268">気づき</text>
+    <text class="sub" x="418" y="290">差分を糧にブラッシュアップ</text>
+    <rect class="cell" x="363" y="332" width="110" height="40"/><text class="k" x="418" y="352">A</text><text class="k pr" x="426" y="352">′</text>
+    <rect class="cell" x="363" y="372" width="110" height="40"/><text class="k" x="418" y="392">B</text><text class="k pr" x="424.5" y="392">′</text>
+    <rect class="cell" x="363" y="412" width="110" height="40"/><text class="k" x="418" y="432">C</text><text class="k pr" x="424.5" y="432">′</text>
+  </g>
+</svg>
