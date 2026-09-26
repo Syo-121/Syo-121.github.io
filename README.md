@@ -30,7 +30,7 @@ Syo の個人サイトのリポジトリ。[Hugo](https://gohugo.io/) で作り�
 ---
 title: "タイトル"
 slug: "example-slug"        # 必須。URL の名前（英小文字・数字・ハイフン）。公開後は変えない
-published: 2026-09-27       # 必須。公開日
+published: 2026-09-27       # 必須。公開日。未来の日付にすると、その日まで記事は出ない（予約投稿＝D-052）
 updated: 2026-10-10         # 任意。更新したときだけ書く
 tags: ["技術", "ESP32"]     # 必須。種類のタグ（技術 / 参加記 / 思想 / その他）を1つ必ず入れる
 description: "要約"         # 必須。一覧・SNS のカード・フィードに出る
@@ -45,6 +45,11 @@ draft: true                 # 任意。true の間は公開されない（ペー
 
 - すべての記事の本文の後に、生成AIの使い方の注意書き（`layouts/_partials/ai-note.html`）が出る。「文章の執筆には生成AIを使っていません」は全記事、図の行は `aiFigures: true` の記事だけ
 
+- **予約投稿**（D-052）: `published` を未来の日付にして push すると、その日まで記事はサイトに出ない。GitHub Actions が**毎日 12:00 JST にビルドし直す**ので、日付が来ると自動で公開される（その日の昼に出る）
+  - ⛔ **予定より早く出すことはできない**。ビルドを何度走らせても、未来日付の記事は外れる。早めたいときは `published` を今日以前に書き換えて push し直す
+  - Actions の画面の「Run workflow」（`workflow_dispatch`）は**取りこぼしの回収**用。日付は来たのに定期ビルドがまだ走っていない／飛ばされたときに手で走らせる
+  - ⚠ 定期実行は数分〜数十分遅れる。60日間リポジトリに動きがないと自動で止まる（GitHub から警告メールが来る）
+  - ⛔ **予約＝非公開ではない**。push した時点で本文は GitHub で誰でも読める。第三者の確認は push の前に済ませる
 - ⚠ このリポジトリは公開なので、`draft: true` の記事もファイルは GitHub で読める。人に見せたくない原稿はリポジトリの外（`_下書き/`）で書く
 - 公開したくないファイルは `.gitignore` に足す。ただし、一度コミットしたものは履歴から読める
 
@@ -61,6 +66,7 @@ draft: true                 # 任意。true の間は公開されない（ペー
 | 記事へのリンク | `{{< post-link "スラッグ" >}}リンクにする文字{{< /post-link >}}`。記事がまだ公開されていないときはただの文字になり、公開すると自動でリンクになる（公開前の記事へのリンクを先に仕込める） | ショートコード。`layouts/_shortcodes/post-link.html` |
 | X の投稿 | `{{< x-post url="https://x.com/ユーザー/status/ID" >}}` | ショートコード。`layouts/_shortcodes/x-post.html` |
 | Docswell のスライド | `{{< docswell url="https://www.docswell.com/s/ユーザー/ID-名前" >}}` | ショートコード。`layouts/_shortcodes/docswell.html` |
+| SpeakerDeck のスライド | `{{< speakerdeck id="<data-id>" url="https://speakerdeck.com/ユーザー/名前" >}}`。`id` はスライドのページの「Embed」で出るコードの `data-id`（URL からは分からない）。`url` は下に出るリンク用で省略可。4:3 のスライドは `ratio="4 / 3"`（「Embed」のコードの `data-ratio` をそのまま貼ってもよい）| ショートコード。`layouts/_shortcodes/speakerdeck.html` |
 | 図（Mermaid） | コードブロックの言語を `mermaid` にする。強調したい箱は `class ノード名 accent`（アクセント色）、まだ無いものは `class ノード名 muted`（点線の枠・薄い字） | 表示時にブラウザで図にする。`layouts/_markup/render-codeblock-mermaid.html`。見た目は `layouts/page.html`（影なしの `classic`・色は `main.css` の変数を使うので、ダーク／ライトに付いてくる） |
 | 改行 | 1行の改行がそのまま改行になる（Zenn と同じ） | `hugo.toml` の `hardWraps`。普通の Markdown では空行を入れないと改行にならない |
 

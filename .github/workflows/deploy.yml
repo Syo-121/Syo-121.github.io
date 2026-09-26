@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # 予約投稿（D-052）: 先頭情報の published が未来の記事はビルドから外れるので、
+  # 毎日ビルドし直して、その日が来たら自動で出るようにする。cron は UTC なので 3:00 = 12:00 JST。
+  # ⚠ GitHub の定期実行は数分〜数十分遅れる。60日間リポジトリに動きがないと自動で止まる（警告メールが来る）
+  schedule:
+    - cron: "0 3 * * *"
 
 permissions:
   contents: read

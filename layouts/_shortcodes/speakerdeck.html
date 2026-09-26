@@ -1,0 +1,17 @@
+{{- /* SpeakerDeck のスライドの埋め込み（S-15・4-F）: {{< speakerdeck id="<data-id>" url="<スライドのページ URL>" >}}
+     id は SpeakerDeck のスライドのページの「Embed」で出るコードの data-id（URL からは分からない）。
+     ビルド時には SpeakerDeck に問い合わせない（D-029）。表示時に読者のブラウザが SpeakerDeck に接続する。
+     4:3 のスライドは ratio="4 / 3" を足す（既定は 16 / 9） */ -}}
+{{- $id := .Get "id" | default (.Get 0) -}}
+{{- if not $id }}{{ errorf "speakerdeck: id がありません（スライドのページの「Embed」で出る data-id）: %s" .Position }}{{ end -}}
+{{- if strings.Contains $id "/" }}{{ errorf "speakerdeck: id にはスライドの URL ではなく data-id を渡す（「Embed」で出るコードの data-id=\"…\"）: %s" .Position }}{{ end -}}
+{{- $ratio := .Get "ratio" | default "16 / 9" -}}
+{{- if not (findRE `^[0-9]+(\.[0-9]+)?( */ *[0-9]+(\.[0-9]+)?)?$` $ratio) }}{{ errorf "speakerdeck: ratio の形が想定と違います（例: 16 / 9。「Embed」のコードの data-ratio をそのまま貼ってもよい）: %s" .Position }}{{ end -}}
+<div class="embed embed-speakerdeck">
+  {{/* 比率・枠・角丸は外側の箱に付け、中の iframe を四方に1pxはみ出させて切り取る。
+       プレイヤーの白い下地が端から覗くため（D-051） */}}
+  <div class="embed-frame" style="{{ printf "aspect-ratio: %s;" $ratio | safeCSS }}"><iframe src="https://speakerdeck.com/player/{{ $id }}" title="SpeakerDeck のスライド" loading="lazy" allowfullscreen></iframe></div>
+  {{- with .Get "url" }}
+  <p class="embed-link"><a href="{{ . }}">SpeakerDeck で見る</a></p>
+  {{- end }}
+</div>
