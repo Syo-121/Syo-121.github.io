@@ -5,6 +5,10 @@
 {{- $desc := or .Description site.Params.description }}
 <meta name="description" content="{{ $desc }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{- /* Google Search Console の所有権確認（D-054）。hugo.toml の params に文字列があるときだけ出す */}}
+{{- with site.Params.googleSiteVerification }}
+<meta name="google-site-verification" content="{{ . }}">
+{{- end }}
 <link rel="icon" href="{{ relURL "favicon-32.png" }}" sizes="32x32">
 <link rel="apple-touch-icon" href="{{ relURL "apple-touch-icon.png" }}">
 {{- with site.Home.OutputFormats.Get "rss" }}
