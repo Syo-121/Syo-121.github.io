@@ -1,8 +1,10 @@
 {{- /* 注意書き（S-14・6-E）: GitHub 形式の > [!NOTE] などを箱にする */ -}}
 {{- if eq .Type "alert" -}}
-{{- $labels := dict "note" "補足" "tip" "ヒント" "important" "重要" "warning" "警告" "caution" "注意" -}}
+{{- $labels := dict "note" "NOTE" "tip" "TIP" "important" "IMPORTANT" "warning" "WARNING" "caution" "CAUTION" -}}
+{{- /* hardWraps のせいで [!NOTE] の直後の改行が <br> になり、見出しとして拾われるので外す */ -}}
+{{- $alertTitle := .AlertTitle | string | replaceRE `^(\s*<br\s*/?>)+|(<br\s*/?>\s*)+$` "" | strings.TrimSpace -}}
 <div class="alert alert-{{ .AlertType }}" role="note">
-  <p class="alert-title">{{ or .AlertTitle (index $labels .AlertType) (title .AlertType) }}</p>
+  <p class="alert-title">{{ partial "icon.html" (printf "alert-%s" .AlertType) }}<span>{{ or ($alertTitle | safeHTML) (index $labels .AlertType) (title .AlertType) }}</span></p>
   {{ .Text }}
 </div>
 {{- else -}}

@@ -59,7 +59,7 @@ draft: true                 # 任意。true の間は公開されない（ペー
 
 | 要素 | 書き方 | 実装 |
 |---|---|---|
-| 注意書き | `> [!NOTE]`（補足）・`> [!WARNING]`（警告）。ほかに `TIP`・`IMPORTANT`・`CAUTION` | GitHub・Obsidian と同じ形。`layouts/_markup/render-blockquote.html` |
+| 注意書き | `> [!NOTE]`（補足）・`> [!WARNING]`（警告）。ほかに `TIP`・`IMPORTANT`・`CAUTION`。見出しはアイコン＋英語（NOTE など）。`> [!NOTE] 好きな見出し` で見出しを変えられる | GitHub・Obsidian と同じ形。`layouts/_markup/render-blockquote.html`・アイコンは `layouts/_partials/icon.html`（D-054） |
 | 画像のサイズ | `![説明](photo.jpg?width=400)` | `layouts/_markup/render-image.html` |
 | 図（SVG） | `![](figure.svg)`。写真と違って枠・影を付けず中央に置く。ダーク／ライトに合わせるなら、SVG の中の `<style>` に `@media (prefers-color-scheme: dark)` で色を書く（例: `why-i-started-blog/sabun.svg`） | `assets/css/main.css` の `img[src$=".svg"]` |
 | 数式 | 文中は `$...$`、独立した行は `$$...$$`。`$` を文字として書くときは `\$` | ビルド時に KaTeX で変換。`layouts/_markup/render-passthrough.html` |

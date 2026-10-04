@@ -460,7 +460,8 @@ tbody tr:nth-child(even) { background: color-mix(in srgb, var(--bg-subtle) 45%, 
 .alert > :first-child { margin-top: 0.3rem; }
 .alert > :last-child { margin-bottom: 0.3rem; }
 .alert p { margin: 0.5rem 0; }
-.alert-title { font-weight: 700; font-size: 0.85rem; letter-spacing: 0.06em; }
+.alert-title { display: flex; align-items: center; gap: 0.45em; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.06em; }
+.alert-title .icon { width: 1.1em; height: 1.1em; flex-shrink: 0; }
 .alert-note { border-left-color: var(--note); background: var(--note-bg); }
 .alert-note .alert-title { color: var(--note); }
 .alert-tip { border-left-color: var(--tip); background: var(--tip-bg); }
