@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 338" width="720" height="338" role="img" aria-labelledby="t">
+  <title id="t">AI は MCP サーバー経由、iPhone は HomeKit 経由で同じ ESP32 につながり、ESP32 が赤外線でエアコンと照明を操作する</title>
+  <style>
+    svg { --fg:#14181f; --muted:#59636e; --surface:#ffffff; --subtle:#eef1f5; --strong:#c9d1da; --accent:#2f5bd7; --accent-weak:#eaf0ff; }
+    @media (prefers-color-scheme: dark) {
+      svg { --fg:#e6edf3; --muted:#93a0ad; --surface:#121821; --subtle:#172029; --strong:#33404e; --accent:#7aa9ff; --accent-weak:#1f2d45; }
+    }
+    text { font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif; fill: var(--fg); text-anchor: middle; dominant-baseline: central; }
+    .h { font-size: 19px; font-weight: 700; text-anchor: start; }
+    .n { font-size: 16px; font-weight: 700; }
+    .n.acc { fill: var(--accent); }
+    .sub { font-size: 13px; fill: var(--muted); }
+    .lbl { font-size: 13px; fill: var(--muted); }
+    .lbl.start { text-anchor: start; }
+    .box { fill: var(--surface); stroke: var(--strong); stroke-width: 1.5; }
+    .box.acc { fill: var(--accent-weak); stroke: var(--accent); stroke-width: 2; }
+    .line { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+    .head { fill: var(--muted); }
+  </style>
+  <defs>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+
+  <text class="h" x="16" y="24">AIもiPhoneも同じESP32を通して赤外線を送る</text>
+
+  <!-- AI -->
+  <rect class="box" x="16" y="58" width="142" height="86" rx="12"/>
+  <text class="n" x="87" y="80">AI</text>
+  <text class="sub" x="87" y="102">Claude Code</text>
+  <text class="sub" x="87" y="122">（パソコン）</text>
+
+  <!-- MCP サーバー -->
+  <rect class="box" x="198" y="58" width="142" height="86" rx="12"/>
+  <text class="n" x="269" y="80">MCPサーバー</text>
+  <text class="sub" x="269" y="102">smartrc_mcp.py</text>
+  <text class="sub" x="269" y="122">（パソコン）</text>
+
+  <!-- ESP32 -->
+  <rect class="box acc" x="380" y="58" width="142" height="86" rx="12"/>
+  <text class="n acc" x="451" y="80">ESP32</text>
+  <text class="sub" x="451" y="102">HomeSpan</text>
+  <text class="sub" x="451" y="122">HTTP API :8080</text>
+
+  <!-- エアコン・照明 -->
+  <rect class="box" x="562" y="58" width="142" height="86" rx="12"/>
+  <text class="n" x="633" y="91">エアコン・照明</text>
+  <text class="sub" x="633" y="115">赤外線で操作</text>
+
+  <!-- 横のつながり -->
+  <line class="line" x1="162" y1="101" x2="194" y2="101" marker-end="url(#m)"/>
+  <line class="line" x1="344" y1="101" x2="376" y2="101" marker-end="url(#m)"/>
+  <line class="line" x1="526" y1="101" x2="558" y2="101" marker-end="url(#m)"/>
+  <text class="lbl" x="178" y="164">MCP（stdio）</text>
+  <text class="lbl" x="360" y="164">HTTP + トークン</text>
+  <text class="lbl" x="542" y="164">赤外線</text>
+
+  <!-- iPhone -->
+  <rect class="box" x="380" y="250" width="142" height="70" rx="12"/>
+  <text class="n" x="451" y="274">iPhone</text>
+  <text class="sub" x="451" y="298">ホームアプリ</text>
+  <line class="line" x1="451" y1="246" x2="451" y2="148" marker-end="url(#m)"/>
+  <text class="lbl start" x="463" y="197">HomeKit（Wi-Fi）</text>
+</svg>
