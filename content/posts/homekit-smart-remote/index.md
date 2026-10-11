@@ -3,6 +3,7 @@ title: "iOSのホームアプリから操作できるスマートリモコンを
 slug: "homekit-smart-remote"
 published: 2025-12-17
 tags: ["技術", "ESP32", "HomeKit", "Arduino", "電子工作", "IoT"]
+series: "自作スマートリモコン"   # シリーズ名（D-055）。同じ名前の記事が目次に並ぶ
 image: "main.jpg"
 description: "友人の誕生日にiPhoneのアプリから操作できるスマートリモコンの自作ハードウェアをプレゼントした話です"
 aiFigures: true

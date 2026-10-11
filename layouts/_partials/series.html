@@ -1,0 +1,25 @@
+{{- /* シリーズの目次（D-055）。
+     先頭情報の `series` が同じ記事を、公開日の古い順に並べて出す。
+     いま読んでいる記事には印を付ける。1本しかないときは出さない
+     （公開済みの記事に「全1回」が出るのを防ぐ）。
+     下書きは手元のビルドにしか入らないので（D-045）、公開先では公開済みの記事だけが並ぶ */}}
+{{- $page := . }}
+{{- with .GetTerms "series" }}
+  {{- $term := index . 0 }}
+  {{- $posts := (where $term.Pages "Section" "posts").ByDate }}
+  {{- if gt (len $posts) 1 }}
+<nav class="series" aria-label="シリーズ" data-pagefind-ignore>
+  <p class="series-label">シリーズ</p>
+  <p class="series-name"><a href="{{ $term.RelPermalink }}">{{ $term.LinkTitle }}</a><span class="series-count">全{{ len $posts }}回</span></p>
+  <ol class="series-list">
+    {{- range $posts }}
+    {{- if eq .Permalink $page.Permalink }}
+    <li class="is-current" aria-current="page">{{ .LinkTitle }}<span class="series-now">この記事</span></li>
+    {{- else }}
+    <li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+    {{- end }}
+    {{- end }}
+  </ol>
+</nav>
+  {{- end }}
+{{- end }}

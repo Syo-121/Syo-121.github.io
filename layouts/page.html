@@ -24,6 +24,9 @@
         {{- partial "tags.html" . }}
         {{- end }}
       </header>
+      {{- if $isPost }}
+      {{- partial "series.html" . }}
+      {{- end }}
       {{- if $hasToc }}
       <nav class="toc toc-inline" aria-label="目次" data-pagefind-ignore>
         <p class="toc-title">目次</p>

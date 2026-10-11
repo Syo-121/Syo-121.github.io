@@ -1,9 +1,10 @@
 {{- define "main" }}
-{{- /* タグ一覧（P-04・2-J）: 記事の多い順 */}}
-<h1>{{ .Title }}</h1>
+{{- /* タグ一覧（P-04・2-J）: 記事の多い順。シリーズ一覧も同じ型で出す（D-055） */}}
+{{- $isSeries := eq .Data.Plural "series" }}
+<h1>{{ if $isSeries }}シリーズ{{ else }}{{ .Title }}{{ end }}</h1>
 <ul class="term-list">
   {{- range .Data.Terms.ByCount }}
-  <li><a href="{{ .Page.RelPermalink }}">#{{ .Page.LinkTitle }} <span class="count">{{ .Count }}</span></a></li>
+  <li><a href="{{ .Page.RelPermalink }}">{{ if not $isSeries }}#{{ end }}{{ .Page.LinkTitle }} <span class="count">{{ .Count }}</span></a></li>
   {{- end }}
 </ul>
 {{- end }}

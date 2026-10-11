@@ -19,6 +19,8 @@ capitalizeListTitles = false
 
 [taxonomies]
   tag = "tags"
+  # シリーズ物の記事をまとめる（D-055）
+  series = "series"
 
 # フィードはトップだけ、/feed.xml に出す（S-20・D-023）
 [outputs]
