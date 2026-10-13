@@ -5,6 +5,10 @@
 {{- $desc := or .Description site.Params.description }}
 <meta name="description" content="{{ $desc }}">
 <link rel="canonical" href="{{ .Permalink }}">
+{{- /* 一覧に出さないページ（D-056）。先頭情報に noindex: true と書いたページだけ、検索エンジンに載せないよう頼む */}}
+{{- if .Params.noindex }}
+<meta name="robots" content="noindex">
+{{- end }}
 {{- /* Google Search Console の所有権確認（D-054）。hugo.toml の params に文字列があるときだけ出す */}}
 {{- with site.Params.googleSiteVerification }}
 <meta name="google-site-verification" content="{{ . }}">

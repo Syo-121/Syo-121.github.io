@@ -87,6 +87,29 @@ draft: true                 # 任意。true の間は公開されない（ペー
 | 自己紹介 | `/about/`（活動・実績は `/about/#works`） |
 | 検索 | `/search/` |
 | フィード | `/feed.xml` |
+| Vectodo（Google の OAuth 同意画面用・一覧に出さない） | `/oauth/vectodo/`・`/oauth/vectodo/privacy/`（下記「一覧に出さないページ」） |
+
+## 一覧に出さないページ
+
+URL を知っている人だけが開けるページ（D-056）。今は Vectodo の OAuth 用の2枚（`content/oauth-vectodo.md`・`content/oauth-vectodo-privacy.md`）。
+`content/` の直下に置き、URL は先頭情報の `url` で決める（`content/` の下にフォルダを作るとセクションになり、その一覧ページが勝手にできるため）。
+
+```yaml
+---
+title: "タイトル"
+url: "/oauth/vectodo/"   # URL をそのまま指定する
+build:
+  list: never            # どのページの一覧にも入れない
+sitemap:
+  disable: true          # サイトマップに入れない
+noindex: true            # <meta name="robots" content="noindex"> を出す（layouts/_partials/head.html）
+---
+```
+
+- メニュー（`layouts/_partials/header.html` に固定で書いてある）・記事一覧・トップ・フィード・関連する記事は `posts` の記事だけを拾うので、もとから出ない。タグも付けない
+- 検索（Pagefind）は記事にだけ `data-pagefind-body` を付けているので、索引に入らない
+- 記事ではないので、生成AIの注意書き（`ai-note.html`）は出ない
+- ⚠ リポジトリは公開なので、ファイルは GitHub で誰でも読める。人に見せたくないものは置かない
 
 ## そのほかのファイル
 
