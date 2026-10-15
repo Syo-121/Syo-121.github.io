@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 404" width="720" height="404" role="img" aria-labelledby="t">
+  <title id="t">スマホと PC のブラウザは Tailscale 越しに、AI（Claude Code）は MCP で、自宅の PC で動く Vectodo のサーバーにつながる。サーバーはデータを SQLite に読み書きし、Google カレンダーへタスクを書き出し、予定を読む</title>
+  <style>
+    svg { --fg:#14181f; --muted:#59636e; --surface:#ffffff; --subtle:#eef1f5; --strong:#c9d1da; --accent:#2f5bd7; --accent-weak:#eaf0ff; }
+    @media (prefers-color-scheme: dark) {
+      svg { --fg:#e6edf3; --muted:#93a0ad; --surface:#121821; --subtle:#172029; --strong:#33404e; --accent:#7aa9ff; --accent-weak:#1f2d45; }
+    }
+    text { font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", Meiryo, sans-serif; fill: var(--fg); text-anchor: middle; dominant-baseline: central; }
+    .h { font-size: 19px; font-weight: 700; text-anchor: start; }
+    .n { font-size: 16px; font-weight: 700; }
+    .n.acc { fill: var(--accent); }
+    .sub { font-size: 13px; fill: var(--muted); }
+    .pt { font-size: 13px; }
+    .lbl { font-size: 13px; fill: var(--muted); }
+    .lbl.start { text-anchor: start; }
+    .lbl.end { text-anchor: end; }
+    .zone { fill: var(--subtle); stroke: var(--strong); stroke-width: 1.5; stroke-dasharray: 6 4; }
+    .box { fill: var(--surface); stroke: var(--strong); stroke-width: 1.5; }
+    .box.acc { fill: var(--accent-weak); stroke: var(--accent); stroke-width: 2; }
+    .pill { fill: var(--surface); stroke: var(--strong); stroke-width: 1; }
+    .line { fill: none; stroke: var(--muted); stroke-width: 1.5; }
+    .head { fill: var(--muted); }
+  </style>
+  <defs>
+    <marker id="m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="head" d="M0,0 L10,5 L0,10 z"/></marker>
+  </defs>
+
+  <text class="h" x="16" y="24">ブラウザもAIも自宅PCの1つのサーバーにつながる</text>
+
+  <!-- 自宅の PC -->
+  <rect class="zone" x="214" y="52" width="256" height="336" rx="14"/>
+  <text class="lbl start" x="230" y="72">自宅のPC（WSL2）</text>
+
+  <!-- Vectodo のサーバー -->
+  <rect class="box acc" x="230" y="88" width="224" height="184" rx="12"/>
+  <text class="n acc" x="342" y="110">Vectodo</text>
+  <text class="sub" x="342" y="130">Node.js + Hono</text>
+  <rect class="pill" x="246" y="146" width="192" height="30" rx="8"/>
+  <text class="pt" x="342" y="161">画面（静的ファイル）</text>
+  <rect class="pill" x="246" y="184" width="192" height="30" rx="8"/>
+  <text class="pt" x="342" y="199">/api（画面用）</text>
+  <rect class="pill" x="246" y="222" width="192" height="30" rx="8"/>
+  <text class="pt" x="342" y="237">/mcp（AI用）</text>
+
+  <!-- SQLite -->
+  <rect class="box" x="272" y="310" width="140" height="60" rx="12"/>
+  <text class="n" x="342" y="330">SQLite</text>
+  <text class="sub" x="342" y="352">ファイル1つ</text>
+  <line class="line" x1="342" y1="276" x2="342" y2="306" marker-start="url(#m)" marker-end="url(#m)"/>
+  <text class="lbl start" x="354" y="291">読み書き</text>
+
+  <!-- ブラウザ -->
+  <rect class="box" x="16" y="138" width="128" height="86" rx="12"/>
+  <text class="n" x="80" y="160">ブラウザ</text>
+  <text class="sub" x="80" y="182">スマホ（PWA）</text>
+  <text class="sub" x="80" y="202">PC</text>
+  <line class="line" x1="148" y1="180" x2="226" y2="180" marker-end="url(#m)"/>
+  <text class="lbl" x="181" y="164">Tailscale</text>
+
+  <!-- AI -->
+  <rect class="box" x="16" y="290" width="128" height="70" rx="12"/>
+  <text class="n" x="80" y="312">AI</text>
+  <text class="sub" x="80" y="334">Claude Code</text>
+  <path class="line" d="M148,325 H187 V237 H226" marker-end="url(#m)"/>
+  <text class="lbl end" x="181" y="282">MCP</text>
+
+  <!-- Google カレンダー -->
+  <rect class="box" x="584" y="150" width="120" height="86" rx="12"/>
+  <text class="n" x="644" y="182">Google</text>
+  <text class="n" x="644" y="204">カレンダー</text>
+  <line class="line" x1="458" y1="172" x2="580" y2="172" marker-end="url(#m)"/>
+  <text class="lbl" x="527" y="156">タスクを書き出す</text>
+  <line class="line" x1="580" y1="214" x2="458" y2="214" marker-end="url(#m)"/>
+  <text class="lbl" x="527" y="230">予定を読む</text>
+</svg>
