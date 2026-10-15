@@ -2,6 +2,7 @@
 title: "依存関係が見えるタスク管理アプリ「Vectodo」を作った"
 slug: "vectodo"
 published: 2026-10-16   # 公開する日に直す
+updated: 2026-10-16
 tags: ["技術","Claude Code","MCPサーバー","AI","TypeScript","React","Node.js","Hono","SQLite","PWA","Tailscale","googlecalendar"]   # 種類を1つ。ほかのタグは後ろに足す
 image: "thumb.png"                    # 一覧のサムネイル兼 SNS カード。同じフォルダの画像名（例: main.jpg）
 listImage: "series-card.png"          # 一覧のサムネイルだけ別の画像にするとき（SNS のカードは image のまま＝D-059）
@@ -35,9 +36,7 @@ series: "Vectodo 開発記"              # 続き物のときだけシリーズ�
 
 線を引くのは，タスクの横の ● を後にやるタスクまでドラッグするだけです（スマホでも指でなぞれます）．線を押せば外せます．図の上の欄からは，そのシリーズの子タスクをタイトルだけでどんどん足せるので，「工程を書き出す → ドラッグで順番をつなぐ」がこの画面だけで済みます．直感的な操作で，きれいな見た目になるようにこだわりました．
 
-![● をドラッグして線を引いているところ](series-link.png)
-
-![つないだ結果（T-006 の後に T-035 が並ぶ）](series-linked.png)
+{{< video src="series-link.mp4" poster="series-link-poster.webp" alt="上の欄で「スマホで表示を確かめる」を足し、「ダークモードに対応する」の ● をドラッグしてつなぐと、T-006 の後に並ぶ" >}}
 
 線を持っているので，「どれを片付けると，いちばん多くのタスクが先へ進むか」も数えられます（後述のボトルネック）．
 
