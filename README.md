@@ -65,6 +65,7 @@ draft: true                 # 任意。true の間は公開されない（ペー
 |---|---|---|
 | 注意書き | `> [!NOTE]`（補足）・`> [!WARNING]`（警告）。ほかに `TIP`・`IMPORTANT`・`CAUTION`。見出しはアイコン＋英語（NOTE など）。`> [!NOTE] 好きな見出し` で見出しを変えられる | GitHub・Obsidian と同じ形。`layouts/_markup/render-blockquote.html`・アイコンは `layouts/_partials/icon.html`（D-054） |
 | 画像のサイズ | `![説明](photo.jpg?width=400)`。画像はすべて中央に置く（1枚ずつ縦に並ぶ。横には並べられない＝D-057） | `layouts/_markup/render-image.html`・中央寄せは `assets/css/main.css` の `.post-content img` |
+| 動画 | `{{< video src="drag.mp4" poster="drag-poster.webp" alt="説明" >}}`。GIF の代わりに、音なし・自動再生・繰り返しの MP4 を置く（押すと一時停止）。`poster` は再生前と自動再生できない端末で出す静止画（任意）。動きを減らす設定の端末では止めて再生ボタンを出す。MP4 は H.264・音声なし・`+faststart` で作る（例: `ffmpeg -i in.webm -an -c:v libx264 -crf 22 -pix_fmt yuv420p -movflags +faststart out.mp4`） | ショートコード。`layouts/_shortcodes/video.html`（D-060） |
 | 図（SVG） | `![](figure.svg)`。写真と違って枠・影を付けず中央に置く。ダーク／ライトに合わせるなら、SVG の中の `<style>` に `@media (prefers-color-scheme: dark)` で色を書く（例: `why-i-started-blog/sabun.svg`） | `assets/css/main.css` の `img[src$=".svg"]` |
 | 数式 | 文中は `$...$`、独立した行は `$$...$$`。`$` を文字として書くときは `\$` | ビルド時に KaTeX で変換。`layouts/_markup/render-passthrough.html` |
 | 記事へのリンク | `{{< post-link "スラッグ" >}}リンクにする文字{{< /post-link >}}`。記事がまだ公開されていないときはただの文字になり、公開すると自動でリンクになる（公開前の記事へのリンクを先に仕込める） | ショートコード。`layouts/_shortcodes/post-link.html` |

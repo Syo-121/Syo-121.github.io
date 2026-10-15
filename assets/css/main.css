@@ -539,6 +539,8 @@ pre.mermaid svg { max-width: 100%; height: auto; }
 /* 埋め込み */
 .embed { margin: 1.75rem 0; }
 .embed-x { display: flex; justify-content: center; }
+/* 動画（D-060）: 画像と同じく中央・角丸・枠・影 */
+.embed-video video { display: block; margin: 0 auto; max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); cursor: pointer; }
 .embed-docswell iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 1px solid var(--border); border-radius: var(--radius); }
 /* SpeakerDeck: プレイヤーの白い下地が端から覗くので、外側の箱で四方を1pxずつ切り落とす（D-051）。
    比率は箱に付ける（ショートコードが style で上書きする） */

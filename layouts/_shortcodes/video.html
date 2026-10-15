@@ -1,0 +1,23 @@
+{{- /* 動画（D-060）: GIF の代わりに、音なし・自動再生・繰り返しの MP4 を置く。
+       {{< video src="drag.mp4" poster="drag-poster.webp" alt="何をしているところか" >}}
+       src・poster は記事と同じフォルダのファイル。poster は読み込み前と、自動再生できない端末（省電力モードなど）で出す静止画。
+       押すと一時停止／再開。端末で動きを減らす設定にしている人には自動で動かさず、再生ボタンを出す */ -}}
+{{- $src := .Get "src" | default (.Get 0) -}}
+{{- $v := .Page.Resources.Get $src -}}
+{{- if not $v }}{{ errorf "video: 動画が見つかりません: %s（%s）" $src .Position }}{{ end -}}
+{{- $poster := "" -}}
+{{- with .Get "poster" -}}
+  {{- with $.Page.Resources.Get . }}{{ $poster = .RelPermalink }}{{ else }}{{ warnf "video: poster が見つかりません: %s（%s）" . $.Position }}{{ end -}}
+{{- end -}}
+<div class="embed embed-video">
+  <video src="{{ $v.RelPermalink }}"{{ with $poster }} poster="{{ . }}"{{ end }} autoplay loop muted playsinline disablepictureinpicture{{ with .Get "alt" }} aria-label="{{ . }}"{{ end }} title="押すと一時停止／再開" onclick="this.paused ? this.play() : this.pause()"></video>
+</div>
+{{- if not (.Page.Store.Get "videoMotion") }}
+{{- .Page.Store.Set "videoMotion" true }}
+<script>
+  addEventListener('DOMContentLoaded', () => {
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    for (const v of document.querySelectorAll('.embed-video video')) { v.pause(); v.controls = true; }
+  });
+</script>
+{{- end }}
