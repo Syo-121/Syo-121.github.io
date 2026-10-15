@@ -27,12 +27,12 @@
 <meta property="og:type" content="{{ cond (and .IsPage (eq .Section "posts")) "article" "website" }}">
 <meta property="og:locale" content="ja_JP">
 {{- /* 記事の画像は一覧のサムネイルと同じ写真（post-image.html）。写真の無い記事はタイトル入りのカード（title-card.html＝D-049）。
-       SNS のカードの形（1200x630）に切り出して出す。元の写真は重いことがある。PNG は PNG のまま（文字がにじまないように） */}}
+       SNS のカードの形（1200x630）に切り出して出す。元の写真は重いことがある。PNG は PNG のまま（文字がにじまないように）、中央で切り出す（一覧と同じ＝D-058） */}}
 {{- $image := "" }}
 {{- if and .IsPage (eq .Section "posts") }}
   {{- with partial "post-image.html" . }}
     {{- if eq .MediaType.SubType "png" }}
-      {{- $image = (.Fill "1200x630").Permalink }}
+      {{- $image = (.Fill "1200x630 Center").Permalink }}
     {{- else }}
       {{- $image = (.Fill "1200x630 jpg q85").Permalink }}
     {{- end }}

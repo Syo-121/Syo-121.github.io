@@ -39,6 +39,7 @@ series: "自作スマートリモコン"  # 任意。続き物のときに書く
                             #   一覧は /series/<名前>/ と /series/
 image: "main.jpg"           # 任意。一覧のサムネイルと SNS のカード画像。記事のフォルダに置いた画像の名前
                             #   書かないときは本文の最初の画像（SVG は除く）。それも無ければタイトル入りのカードを作る
+listImage: "list.png"       # 任意。一覧のサムネイルだけ別の画像にする（SNS のカードは image のまま＝D-059）。16:9 で作ると切られない
 cardTitle: "自分のために|ブログを書く"  # 任意。タイトル入りのカードの改行位置を「|」で指定する（自動の折り返しが変なときだけ）
 recommended: true           # 任意。トップの「おすすめ記事」に出す
 aiFigures: true             # 任意。図に生成AIを使った記事で true。記事の最後の注意書きに図の行が出る
@@ -63,7 +64,7 @@ draft: true                 # 任意。true の間は公開されない（ペー
 | 要素 | 書き方 | 実装 |
 |---|---|---|
 | 注意書き | `> [!NOTE]`（補足）・`> [!WARNING]`（警告）。ほかに `TIP`・`IMPORTANT`・`CAUTION`。見出しはアイコン＋英語（NOTE など）。`> [!NOTE] 好きな見出し` で見出しを変えられる | GitHub・Obsidian と同じ形。`layouts/_markup/render-blockquote.html`・アイコンは `layouts/_partials/icon.html`（D-054） |
-| 画像のサイズ | `![説明](photo.jpg?width=400)` | `layouts/_markup/render-image.html` |
+| 画像のサイズ | `![説明](photo.jpg?width=400)`。画像はすべて中央に置く（1枚ずつ縦に並ぶ。横には並べられない＝D-057） | `layouts/_markup/render-image.html`・中央寄せは `assets/css/main.css` の `.post-content img` |
 | 図（SVG） | `![](figure.svg)`。写真と違って枠・影を付けず中央に置く。ダーク／ライトに合わせるなら、SVG の中の `<style>` に `@media (prefers-color-scheme: dark)` で色を書く（例: `why-i-started-blog/sabun.svg`） | `assets/css/main.css` の `img[src$=".svg"]` |
 | 数式 | 文中は `$...$`、独立した行は `$$...$$`。`$` を文字として書くときは `\$` | ビルド時に KaTeX で変換。`layouts/_markup/render-passthrough.html` |
 | 記事へのリンク | `{{< post-link "スラッグ" >}}リンクにする文字{{< /post-link >}}`。記事がまだ公開されていないときはただの文字になり、公開すると自動でリンクになる（公開前の記事へのリンクを先に仕込める） | ショートコード。`layouts/_shortcodes/post-link.html` |
@@ -168,7 +169,7 @@ noindex: true            # <meta name="robots" content="noindex"> を出す（la
 | 画像が出ない | ビルドのときに「画像が見つかりません」と警告が出ていないか見る。画像は記事と同じフォルダに置く |
 | ビルドで「deprecated」と出る | Hugo の版を上げたときに出る。メッセージのとおりに `hugo.toml` を直す |
 | 版を上げたい | `npm install hugo-extended@<版> pagefind@<版> --save-exact` のあと `npm run preview` で確かめてからコミットする |
-| 一覧のサムネイルが変な絵になる | 記事の先頭情報に `image: "<ファイル名>"` を書く。書かないと本文の最初の画像が使われる。画像が1枚も無い記事はタイトル入りのカード（`layouts/_partials/title-card.html`）になる。一覧と X などのカードで同じ画像（一覧では中央を 16:9 に切り出す） |
+| 一覧のサムネイルが変な絵になる | 記事の先頭情報に `image: "<ファイル名>"` を書く。書かないと本文の最初の画像が使われる。画像が1枚も無い記事はタイトル入りのカード（`layouts/_partials/title-card.html`）になる。一覧と X などのカードで同じ画像（一覧は 16:9、カードは 1200x630 に切り出す。PNG＝図や自作のカードは中央で、写真は Hugo の Smart〈目立つところを自動で選ぶ〉で＝D-058）。自作のカードは 1200x630 で作り、文字は左右 120px より内側に置く（一覧で左右 40px ずつ切られ、角も丸くなるため。`title-card.html` と同じ） |
 | シリーズの目次が出ない | そのシリーズの記事が公開済みで2本以上あるか確かめる（1本だけのときは出さない＝D-055）。下書きは手元のビルドにしか入らないので、手元で「全2回」でも公開先では出ないことがある。名前は完全一致（`layouts/_partials/series.html`） |
 | タイトル入りのカードの改行が変 | 先頭情報に `cardTitle: "前半\|後半"` と書いて改行位置を決める（1行は全角15字まで・3行まで。はみ出すとビルドのときに警告が出る）。自動の折り返しは `layouts/_partials/title-lines.html`。書体は `assets/fonts/NotoSansJP-Bold.ttf`（SIL OFL 1.1。ライセンス文は同じフォルダ）。下地は `assets/images/card-base.png`。中身は一覧の切り抜きと丸い角に掛からないよう、左右 120px・上 80px ほど内側に置いている |
 | PC で左右が空きすぎる・詰まりすぎる | `assets/css/main.css` の `--w-page`（ページ全体の幅・既定 72rem）と `--w-text`（記事本文の幅・既定 46rem）を変える。本文の幅は「1行 35〜40 字」が目安（4-H） |

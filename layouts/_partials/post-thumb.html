@@ -1,9 +1,20 @@
 {{- /* 一覧に出すサムネイル（D-037・D-049）。X などのカードと同じ画像を 16:9 に切り出す。
        写真の選び方は post-image.html。写真の無い記事はタイトル入りのカード（title-card.html）。
-       カードは文字をにじませないように、写真より大きめ（800px 幅）に縮める */}}
+       先頭情報の listImage があれば、一覧だけその画像にする（X などのカードは image のまま＝D-059）。
+       カードは文字をにじませないように、写真より大きめ（800px 幅）に縮める。
+       PNG（図・自作のカード）は中央で切り出す。既定の Smart は拡大して端を切ることがあり、文字が欠ける（D-058） */}}
+{{- $img := "" }}
+{{- with .Params.listImage }}
+  {{- with $.Resources.GetMatch (strings.TrimPrefix "./" .) }}
+    {{- if ne .MediaType.SubType "svg" }}{{ $img = . }}{{ end }}
+  {{- else }}
+    {{- warnf "listImage の画像が見つかりません: %s（%s）" . $.Path }}
+  {{- end }}
+{{- end }}
+{{- if not $img }}{{ $img = partial "post-image.html" . }}{{ end }}
 {{- $thumb := "" }}
-{{- with partial "post-image.html" . }}
-  {{- $thumb = .Fill "560x315 webp q80" }}
+{{- with $img }}
+  {{- $thumb = .Fill (printf "560x315 webp q80%s" (cond (eq .MediaType.SubType "png") " Center" "")) }}
 {{- else }}
   {{- $thumb = (partialCached "title-card.html" . .RelPermalink).Fill "800x450 webp q85 Center" }}
 {{- end }}

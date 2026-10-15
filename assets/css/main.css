@@ -382,7 +382,8 @@ h4 { font-size: 1rem; margin: 2rem 0 0.5rem; }
   vertical-align: middle;
 }
 .post-content p { margin: 1.15rem 0; }
-.post-content img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+/* 本文の画像はすべて中央に置く（D-057） */
+.post-content img { display: block; margin: 0 auto; max-width: 100%; height: auto; border-radius: 10px; border: 1px solid var(--border); box-shadow: var(--shadow); }
 .post-content ul, .post-content ol { padding-left: 1.4rem; }
 .post-content li { margin: 0.35rem 0; }
 .post-content hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
